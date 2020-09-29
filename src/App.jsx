@@ -6,6 +6,7 @@ import Exercise02 from './exercises/Exercise02'
 import Exercise03 from './exercises/Exercise03'
 
 const Welcome = () => {
+
   return <div>
     <h2>Welcome!</h2>
     <p>
@@ -14,22 +15,43 @@ const Welcome = () => {
   </div>
 }
 
-const App = () => {
-  return <div className="container">
-    <h1 className="py-4">FrontEnd Interview Exercises</h1>
+////>>  EXERCISE 03  <<////
+///>> [x] Activate the correct page depending on which page we are located  <<///
+const NavLink = props => {
+  return (<Link {...props}
+    getProps={({ isCurrent }) => {      
+      //with isCurrent we verify if the page is activate
+      //and set the correct class to the className
+      return {
+        className: isCurrent ? "nav-link active" : "nav-link"
+      }
+    }}/>)
+};
 
+const App = () => {   
+
+  return <div className="container">
+    {/*///>>  EXERCISE 03  <<///*/}
+    {/*///>> [x] Title clickable and take it to the homepage  <<///*/}
+    <Link to="/"><h1 className="py-4" style={{textDecoration:'none', color:'black'}}>FrontEnd Interview Exercises</h1></Link>
+                                            {/*//This is only to the style//*/}
     <ul className="nav nav-tabs">
+      {/* [x] Remove the Homepage button from the navbar
       <li className="nav-item">
         <Link to="/" className="nav-link active">Homepage</Link>
+      </li>*/}
+      <li className="nav-item">
+      {/*///>> [x] Replace the Links to NavLink <<///*/}
+        <NavLink to="/exercise01">
+          Exercise 01</NavLink>
       </li>
       <li className="nav-item">
-        <Link to="/exercise01" className="nav-link">Exercise 01</Link>
+        <NavLink to="/exercise02">
+          Exercise 02</NavLink>
       </li>
       <li className="nav-item">
-        <Link to="/exercise02" className="nav-link">Exercise 02</Link>
-      </li>
-      <li className="nav-item">
-        <Link to="/exercise03" className="nav-link">Exercise 03</Link>
+        <NavLink to="/exercise03">
+          Exercise 03</NavLink>
       </li>
     </ul>
 

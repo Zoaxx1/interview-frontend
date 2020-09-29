@@ -7,30 +7,58 @@ import React, { useState } from 'react';
 
 // Counter Component
 const Counter = ({name, value, onChange}) => {
+  //name ---> index
+  //value 
+  //onChange ---> handlerOnChange in GroupOfCounters
 
   const handlerOnChange = e =>{
-    console.log(Number(e.target.value))
-    onChange({
-      operation: parseInt(e.target.value),
-      index: parseInt(name)
-    })
+    ///// [x] Parse de value //////
+    const newValue = parseInt(e.target.value)
+
+    ///// [x] In case we type a negative number ////
+    if(Number.isInteger(newValue)){
+      onChange({
+        newValue,
+        index: parseInt(name)
+      })
+    }
+    ///// [x] Set the value in '0' if we delete the input ////
+    else if(!e.target.value){
+        onChange({
+          newValue: 0,
+        index: parseInt(name)
+        })
+    }
+    
   }
 
   return (
     <div className="d-flex my-2">
       <strong>{value}</strong>
       <div className="ml-2">
-        <input onChange={handlerOnChange}/>
+        <input type='number' placeholder={0} onChange={handlerOnChange}/>
       </div>
     </div>
   );
 };
 
+/////////////>> FIRST COUNTER <</////////////
+//((( with onIncrement and onDecrement  )))//
 /*const Counter = ({name, value, onChange}) => {
+  //name ---> index
+  //value 
+  //onChange ---> handlerOnChange in GroupOfCounters
+
+  //// [x] Save the operations we need to use ///
+  const [operations] = useState({
+    onIncrement: 1,
+    onDecrement: -1
+  })
 
   const handlerOnChange = e =>{
+    ///// [x] Convert the e.target.name to integer and add with the value /////
     onChange({
-      operation: parseInt(e.target.name),
+      newValue: value + operations[e.target.name],
       index: parseInt(name)
     })
   }
@@ -39,8 +67,8 @@ const Counter = ({name, value, onChange}) => {
     <div className="d-flex my-2">
       <strong>{value}</strong>
       <div className="ml-2">
-        <button className="btn btn-danger mr-1" name='-1' onClick={handlerOnChange}>-</button>
-        <button className="btn btn-success" name='+1' onClick={handlerOnChange}>+</button>
+        <button className="btn btn-danger mr-1" name='onDecrement' onClick={handlerOnChange}>-</button>
+        <button className="btn btn-success" name='onIncrement' onClick={handlerOnChange}>+</button>
       </div>
     </div>
   );
@@ -62,22 +90,35 @@ const GroupOfCounters = () => {
 
   const [total, setTotal] = useState(0)
 
-  const handlerOnChange = ({operation, index}) => {
+  const handlerOnChange = ({newValue, index}) => {
+    //operation ---> the new value
+    //index ---> position in data
 
-    var array = data
-    array[index] = {
-      ...array[index],
-      value: array[index].value + operation
+    //////// [x] Clone the array data ////////
+    var changeData = data
+
+    /////// [x] Change the variables on the obj  /////////
+    changeData[index] = {
+      ...changeData[index],
+      value: newValue
     }
 
-    setData(array)
-    setTotal(total + operation)
+
+    ///// [x] Total of the values ////////
+    const sum = changeData.map(d => d.value).reduce((e,f)=> e + f)
+
+    ///// [x] Set the changes /////
+    setData(changeData)
+    setTotal(sum)
   }
 
   return (
     <div>
-      {data.map((counter) => (
-        <Counter key={counter.id} name={`${counter.id - 1}`} value={counter.value} onChange={handlerOnChange}/>
+      {/*////// [x] Send in the name the position on the array ///////*/}
+      {/*////// [x] Send in the onChange the handlerOnChange ///////*/}
+      {data.map((counter, index) => (
+        <Counter key={counter.id} name={index} 
+        value={counter.value} onChange={handlerOnChange}/>
       ))}
       <Total value={total}/>
     </div>

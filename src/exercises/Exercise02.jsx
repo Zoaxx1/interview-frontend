@@ -36,7 +36,8 @@ const Counter = ({name, value, onChange}) => {
     <div className="d-flex my-2">
       <strong>{value}</strong>
       <div className="ml-2">
-        <input type='number' placeholder={0} onChange={handlerOnChange}/>
+        <input type='number' placeholder={0} style={{textAlign:'end', width:75}}
+        onChange={handlerOnChange}/>
       </div>
     </div>
   );

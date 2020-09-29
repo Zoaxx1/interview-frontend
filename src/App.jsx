@@ -33,8 +33,8 @@ const App = () => {
   return <div className="container">
     {/*///>>  EXERCISE 03  <<///*/}
     {/*///>> [x] Title clickable and take it to the homepage  <<///*/}
-    <Link to="/"><h1 className="py-4" style={{textDecoration:'none', color:'black'}}>FrontEnd Interview Exercises</h1></Link>
-                                            {/*//This is only to the style//*/}
+    <Link to="/" style={{textDecoration:'none'}}><h1 className="py-4" style={{color:'black'}}>FrontEnd Interview Exercises</h1></Link>
+                  {/*/////////////////>> This is only to the style <<//////////////////////*/}
     <ul className="nav nav-tabs">
       {/* [x] Remove the Homepage button from the navbar
       <li className="nav-item">
